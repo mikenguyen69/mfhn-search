@@ -1,10 +1,14 @@
 import React from 'react';
 import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
+import SearchLinks from "./components/Link/SearchLinks";
+import firebase, {FirebaseContext} from "./firebase";
 
 const defaultHistory = createBrowserHistory();
 
 class App extends React.Component {
+  
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -32,9 +36,11 @@ class App extends React.Component {
 
     return (
       <Router history={this.props.history || defaultHistory}>
-        <div>
-          <div>Hello Top Search from localhost:3001 !</div>
-        </div>
+         <FirebaseContext.Provider value={{firebase}}>
+          <div>
+            <SearchLinks />         
+          </div>
+        </FirebaseContext.Provider>
       </Router>
     );
   }
