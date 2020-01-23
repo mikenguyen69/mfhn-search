@@ -1,7 +1,8 @@
 import React from 'react';
-import { Router } from 'react-router-dom';
+import { Router, Switch, Route } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import SearchLinks from "./components/Link/SearchLinks";
+import LinkList from "./components/Link/LinkList";
 import firebase, {FirebaseContext} from "./firebase";
 
 const defaultHistory = createBrowserHistory();
@@ -12,7 +13,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: true,
+      lading: true,
       error: false,
     };
   }
@@ -37,9 +38,11 @@ class App extends React.Component {
     return (
       <Router history={this.props.history || defaultHistory}>
          <FirebaseContext.Provider value={{firebase}}>
-          <div>
-            <SearchLinks />         
-          </div>
+            <Switch>
+              <Route exact path="/search" component={SearchLinks} />
+              <Route exact path="/top" component={LinkList} />
+              <Route exact path="/new/:page" component={LinkList} />
+            </Switch>           
         </FirebaseContext.Provider>
       </Router>
     );
