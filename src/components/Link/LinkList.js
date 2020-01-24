@@ -21,17 +21,24 @@ function LinkList(props) {
 
   function getLinks() {    
     setLoading(true);  
-   
+      
     if (isTopPage) {
+
+      console.log("reload the top....");
+
       return linksRef
         .orderBy("voteCount", "desc")
         .onSnapshot(handleSnapshot);
     } 
     else {      
       // get total collection count;
-      linksRef.orderBy("created", "desc").get().then(snapshot => {
-        setTotalLinks(snapshot.size);
-      });
+      console.log("reload the new....");
+
+      linksRef.orderBy("created", "desc")
+        .get()
+        .then(snapshot => {
+          setTotalLinks(snapshot.size);
+        });
 
       const offset = page * LINKS_PER_PAGE - LINKS_PER_PAGE;
       axios.get(`https://us-central1-hooks-news-e53b4.cloudfunctions.net/linksPagination?offset=${offset}`)
@@ -40,15 +47,13 @@ function LinkList(props) {
           setLinks(links);    
           setLoading(false);      
         });         
-      
-      
+            
       return () => {};
     }
   }
 
   function handleSnapshot(snapshot) {
-    const links = snapshot.docs.map(doc => {
-      console.log(doc.data().url);
+    const links = snapshot.docs.map(doc => {      
       return {id: doc.id, ...doc.data()}
     });
     

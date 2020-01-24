@@ -23,9 +23,8 @@ class App extends React.Component {
   }
 
   render() {
-    const {      
-      error,
-    } = this.state;
+    const {error} = this.state;
+    const {user} = this.props;
 
     if (error) {
       return (
@@ -37,7 +36,7 @@ class App extends React.Component {
 
     return (
       <Router history={this.props.history || defaultHistory}>
-         <FirebaseContext.Provider value={{firebase}}>
+         <FirebaseContext.Provider value={{user, firebase}}>
             <Switch>
               <Route exact path="/search" component={SearchLinks} />
               <Route exact path="/top" component={LinkList} />
